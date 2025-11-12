@@ -12,7 +12,7 @@ void cmd_help(Cli *cli, int argc, char **argv);
 void cmd_echo(Cli *cli, int argc, char **argv);
 void cmd_clear(Cli *cli, int argc, char **argv);
 void cmd_info(Cli *cli, int argc, char **argv);
-
+void cmd_exit(Cli *cli, int argc, char **argv);
 // Регистрация стандартных команд
 void cli_register_default_commands(Cli *cli);
 

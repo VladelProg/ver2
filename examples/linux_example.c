@@ -9,17 +9,18 @@ static volatile bool running = true;
 
 void signal_handler(int sig) {
     running = false;
-    printf("\nReceived signal %d, shutting down...\n", sig);
+    printf("\nReceived signal %d, shutting down...\n\r", sig);
 }
 
 int main() {
-    printf("Starting Embedded CLI Linux Example...\n");
+    printf("Starting Embedded CLI Linux Example...\n\r");
     
     signal(SIGINT, signal_handler);
+    signal(SIGTERM, signal_handler);
     
     // Инициализация платформозависимого IO
     linux_io_init();
-    printf("Linux IO initialized\n");
+    printf("Linux IO initialized\n\r");
     
     // ВАЖНО: Обнуляем структуру cli перед использованием
     memset(&cli, 0, sizeof(Cli));
@@ -29,20 +30,20 @@ int main() {
     cli.read_char = linux_read_char;
     cli.data_available = linux_data_available;
     
-    printf("CLI functions set\n");
+    printf("CLI functions set\n\r");
     
     // Инициализация CLI
     cli_init(&cli);
-    printf("CLI initialized\n");
+    printf("CLI initialized\n\r");
     
-    printf("Embedded CLI Linux Example Ready\n");
-    printf("Type 'help' for available commands\n");
+    printf("Embedded CLI Linux Example Ready\n\r");
+    printf("Type 'help' for available commands\n\r");
     
     while (running) {
         cli_process(&cli);
         linux_background_tasks_process();
     }
     
-    printf("Goodbye!\n");
+    printf("Goodbye!\n\r");
     return 0;
 }

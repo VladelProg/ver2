@@ -34,6 +34,13 @@ struct Cli {
     bool echo_enabled;
     CliCommand *commands;
     
+    char completion_buffer[CLI_INPUT_BUFFER_SIZE];
+    uint16_t completion_pos;
+    CliCommand *last_completion;
+
+    char escape_sequence[8];
+    uint8_t escape_len;
+
     // Платформозависимые функции
     void (*write_char)(char c);
     char (*read_char)(void);
@@ -50,12 +57,21 @@ void cli_write_char(Cli *cli, char c);
 void cli_print(Cli *cli, const char *str);
 void cli_println(Cli *cli, const char *str);
 
+
+void cli_history_up(Cli *cli);
+void cli_history_down(Cli *cli);
+void cli_clear_line(Cli *cli);
+
 // Вспомогательные функции
 void cli_clear_screen(Cli *cli);
 void cli_show_prompt(Cli *cli);
+
+void cli_autocomplete(Cli *cli);
+void cli_complete_comand(Cli *cli);
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif // EMBEDDED_CLI_H
+
